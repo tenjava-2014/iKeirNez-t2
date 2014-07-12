@@ -17,7 +17,7 @@ public class Language {
     private static Properties properties = new Properties();
 
     static {
-        Language.class.getClassLoader().getResourceAsStream("language_en.properties");
+        load(Language.class.getClassLoader().getResourceAsStream("language_en.properties"));
     }
 
     public static void load(InputStream inputStream){
