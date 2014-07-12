@@ -1,5 +1,6 @@
 package com.ikeirnez.tenjava.redstonebatteries.utilities;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -103,6 +104,16 @@ public class InventoryUtils {
         }
 
         return amountHas >= amount;
+    }
+
+    /**
+     * Gets a friendly name for a material, example IRON_DOOR becomes Iron Door
+     *
+     * @param material The material to get the friendly name for
+     * @return The friendly name
+     */
+    public static String getFriendlyMaterialName(Material material){
+        return WordUtils.capitalize(material.name().toLowerCase().replaceAll("_", ""));
     }
 
 }
