@@ -1,3 +1,4 @@
-name: iKeirNez-t2
-main: com.tenjava.entries.iKeirNez.t2.TenJava
+name: RedstoneBatteries
+main: ${project.groupId}.${project.artifactId}.${project.name}
 version: '${project.version}'
+author: iKeirNez
