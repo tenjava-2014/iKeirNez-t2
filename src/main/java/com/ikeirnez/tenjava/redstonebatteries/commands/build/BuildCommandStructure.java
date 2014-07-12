@@ -3,14 +3,17 @@ package com.ikeirnez.tenjava.redstonebatteries.commands.build;
 import com.ikeirnez.tenjava.redstonebatteries.RedstoneBatteries;
 import com.ikeirnez.tenjava.redstonebatteries.structures.Battery;
 import com.ikeirnez.tenjava.redstonebatteries.utilities.Cuboid;
+import com.ikeirnez.tenjava.redstonebatteries.utilities.Utils;
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Firework;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * An enum containing all possible structures that can be erected (hehe) with the build command
@@ -83,7 +86,29 @@ public enum BuildCommandStructure {
             outputBlockLocation.getBlock().setType(Material.LAPIS_BLOCK);
 
             // the below code is pretty bad, in a rush
-            RedstoneBatteries.getInstance().getStructureManager().registerStructure(new Battery(new Cuboid(l, l.clone().add(3, totalLayers + 2, 4)), glassBlockLocations, snowBlockLocations, inputBlockLocation, outputBlockLocation, chargedNotifierBlockLocation));
+            Battery battery = new Battery(new Cuboid(l, l.clone().add(3, totalLayers + 2, 4)), glassBlockLocations, snowBlockLocations, inputBlockLocation, outputBlockLocation, chargedNotifierBlockLocation);
+            RedstoneBatteries.getInstance().getStructureManager().registerStructure(battery);
+
+            Location centre = battery.getCuboid().getCentre();
+            Random random = Utils.getRandom();
+
+            for (int i = 0; i < 15; i++){
+                Location randomLocation = centre.clone().add(random.nextInt(10), random.nextInt(10), random.nextInt(10));
+
+                /*if (random.nextBoolean()){
+                    Firework firework = randomLocation.getWorld().spawn(randomLocation, Firework.class);
+                    FireworkMeta fireworkMeta = firework.getFireworkMeta();
+
+                    FireworkEffect.Builder builder = FireworkEffect.builder();
+                    if (random.nextBoolean()) builder.withTrail();
+                    if (random.nextBoolean()) builder.withFlicker();
+
+                    builder.withColor(Color.AQUA);
+                    builder.withColor(Color.FUCHSIA);
+                } else {*/
+                    randomLocation.getWorld().playEffect(randomLocation, Effect.values()[random.nextInt(Effect.values().length)], random.nextInt(10));
+                /*}*/
+            }
         }
     };
 

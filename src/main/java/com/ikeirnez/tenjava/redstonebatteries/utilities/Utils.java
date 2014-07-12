@@ -7,6 +7,7 @@ import org.bukkit.permissions.Permission;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static com.ikeirnez.tenjava.redstonebatteries.Language.getPrefix;
 
@@ -15,7 +16,13 @@ import static com.ikeirnez.tenjava.redstonebatteries.Language.getPrefix;
  */
 public class Utils {
 
+    private static Random random;
+
     private Utils(){}
+
+    public static Random getRandom() {
+        return random;
+    }
 
     public static boolean isPlayer(CommandSender commandSender){
         return isPlayer(commandSender, true);
