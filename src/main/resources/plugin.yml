@@ -1,4 +1,8 @@
-name: RedstoneBatteries
+name: ${project.name}
 main: ${project.groupId}.${project.artifactId}.${project.name}
 version: '${project.version}'
 author: iKeirNez
+commands:
+  build:
+    description: Builds a battery using the materials you have in your inventory, if in creative this does not matter
+    usage: /<command> battery <size>
