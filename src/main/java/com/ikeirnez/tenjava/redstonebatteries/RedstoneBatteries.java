@@ -50,6 +50,7 @@ public class RedstoneBatteries extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        getStructureManager().saveAll();
         instance = null;
     }
 
