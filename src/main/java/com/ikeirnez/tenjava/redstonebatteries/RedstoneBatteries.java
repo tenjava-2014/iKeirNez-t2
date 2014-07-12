@@ -1,9 +1,9 @@
 package com.ikeirnez.tenjava.redstonebatteries;
 
 import com.ikeirnez.tenjava.redstonebatteries.commands.build.BuildCommand;
-import com.ikeirnez.tenjava.redstonebatteries.configuration.CustomConfigWrapper;
 import com.ikeirnez.tenjava.redstonebatteries.configuration.Setting;
 import com.ikeirnez.tenjava.redstonebatteries.listeners.StructureLocationListener;
+import com.ikeirnez.tenjava.redstonebatteries.managers.StructureManager;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 

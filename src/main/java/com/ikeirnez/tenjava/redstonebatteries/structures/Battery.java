@@ -1,7 +1,9 @@
 package com.ikeirnez.tenjava.redstonebatteries.structures;
 
 import com.ikeirnez.tenjava.redstonebatteries.configuration.Serialization;
+import com.ikeirnez.tenjava.redstonebatteries.configuration.Setting;
 import com.ikeirnez.tenjava.redstonebatteries.utilities.Cuboid;
+import com.ikeirnez.tenjava.redstonebatteries.utilities.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,9 +20,11 @@ public class Battery implements ConfigurationSerializable {
     private static final Material INPUT_BLOCK = Material.ENDER_STONE, OUTPUT_BLOCK = Material.LAPIS_BLOCK, CHARGED_NOTIFIER_BLOCK = Material.PISTON_STICKY_BASE;
 
     private final Cuboid cuboid;
-    private int size;
-    private int maxCharge = 0;
-    private int charge = 0;
+    private final int size;
+    private final int maxCharge;
+
+    private int charge = 13;
+    private int chargingCurrent = 0;
 
     private final List<Location> glassBlocksLocations = new ArrayList<>(), snowBlocksLocations = new ArrayList<>();
     private Location inputBlockLocation, outputBlockLocation, chargedNotifierBlock;
@@ -35,7 +39,7 @@ public class Battery implements ConfigurationSerializable {
         this.outputBlockLocation = outputBlockLocation;
         this.chargedNotifierBlock = chargedNotifierBlock;
         this.size = glassBlocksLocations.size();
-
+        this.maxCharge = Setting.BATTERY__POWER_PER_LEVEL.intValue() * getSize();
         update();
     }
 
@@ -57,9 +61,9 @@ public class Battery implements ConfigurationSerializable {
             snowBlocksLocations.add(Serialization.deserializeLocation((Map<String, Object>) snowBlocksMap.get(key)));
         }
 
-        this.maxCharge = (int) data.get("maxCharge");
         this.charge = (int) data.get("charge");
-
+        this.size = glassBlocksLocations.size();
+        this.maxCharge = Setting.BATTERY__POWER_PER_LEVEL.intValue() * getSize();
         update();
     }
 
@@ -67,16 +71,12 @@ public class Battery implements ConfigurationSerializable {
         return cuboid;
     }
 
-    public int getMaxCharge() {
-        return maxCharge;
+    public int getSize() {
+        return size;
     }
 
-    public void setMaxCharge(int maxCharge) {
-        this.maxCharge = maxCharge;
-
-        if (getMaxCharge() > getCharge()){
-            setCharge(getMaxCharge());
-        }
+    public int getMaxCharge() {
+        return maxCharge;
     }
 
     public int getCharge() {
@@ -87,11 +87,18 @@ public class Battery implements ConfigurationSerializable {
         this.charge = charge;
     }
 
+    public int getChargingCurrent() {
+        return chargingCurrent;
+    }
+
+    public void setChargingCurrent(int chargingCurrent) {
+        this.chargingCurrent = chargingCurrent;
+    }
+
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<>();
         data.put("cuboid", getCuboid().serialize());
-        data.put("maxCharge", getMaxCharge());
         data.put("charge", getCharge());
 
         Map<String, Object> locations = new HashMap<>();
@@ -116,6 +123,25 @@ public class Battery implements ConfigurationSerializable {
     }
 
     private void update(){
+        double blockPercentWorth = Math.round(100.0f / getSize());
+        double percent = ((getCharge() * 100.0f) / getMaxCharge());
 
+        int blocks = (int) Math.round(percent / blockPercentWorth);
+        int snowLayers = (int) Math.round((percent % blockPercentWorth) / 8);
+
+
+        for (int i = 0; i < blocks; i++){
+            snowBlocksLocations.get(i).getBlock().setType(Material.SNOW_BLOCK);
+        }
+
+        if (blocks < snowBlocksLocations.size()){
+            Block block = snowBlocksLocations.get(blocks).getBlock();
+            block.setType(Material.SNOW_BLOCK);
+            block.setData((byte) snowLayers);
+        }
+    }
+
+    public static int getPercent(int value, int maxValue){
+        return (int) ((value * 100.0f) / maxValue);
     }
 }

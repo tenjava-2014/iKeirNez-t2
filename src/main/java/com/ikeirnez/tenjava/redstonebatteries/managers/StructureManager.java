@@ -1,4 +1,4 @@
-package com.ikeirnez.tenjava.redstonebatteries;
+package com.ikeirnez.tenjava.redstonebatteries.managers;
 
 import com.ikeirnez.tenjava.redstonebatteries.configuration.CustomConfigWrapper;
 import com.ikeirnez.tenjava.redstonebatteries.structures.Battery;

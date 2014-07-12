@@ -7,7 +7,7 @@ import org.apache.commons.lang.WordUtils;
  */
 public enum Setting {
 
-    BATTERY__POWER_PER_BLOCK(100);
+    BATTERY__POWER_PER_LEVEL(100);
 
     private final String configPath;
 
