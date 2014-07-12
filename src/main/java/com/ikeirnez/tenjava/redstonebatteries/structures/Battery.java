@@ -1,5 +1,6 @@
 package com.ikeirnez.tenjava.redstonebatteries.structures;
 
+import com.ikeirnez.tenjava.redstonebatteries.configuration.Serialization;
 import com.ikeirnez.tenjava.redstonebatteries.utilities.Cuboid;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -68,6 +69,22 @@ public class Battery implements ConfigurationSerializable {
 
     public Battery(Map<String, Object> data){
         this.cuboid = new Cuboid((Map<String, Object>) data.get("cuboid"));
+
+        Map<String, Object> locations = (Map<String, Object>) data.get("locations");
+        this.inputBlockLocation = Serialization.deserializeLocation((Map<String, Object>) locations.get("inputBlock"));
+        this.outputBlockLocation = Serialization.deserializeLocation((Map<String, Object>) locations.get("outputBlock"));
+        this.chargedNotifierBlock = Serialization.deserializeLocation((Map<String, Object>) locations.get("chargedNotificationBlock"));
+
+        Map<String, Object> glassBlocksMap = (Map<String, Object>) locations.get("glassBlocks");
+        for (String key : glassBlocksMap.keySet()){
+            glassBlocksLocations.add(Serialization.deserializeLocation((Map<String, Object>) glassBlocksMap.get(key)));
+        }
+
+        Map<String, Object> snowBlocksMap = (Map<String, Object>) locations.get("snowBlocks");
+        for (String key : snowBlocksMap.keySet()){
+            snowBlocksLocations.add(Serialization.deserializeLocation((Map<String, Object>) snowBlocksMap.get(key)));
+        }
+
         this.maxCharge = (int) data.get("maxCharge");
         this.charge = (int) data.get("charge");
     }
@@ -98,6 +115,25 @@ public class Battery implements ConfigurationSerializable {
         data.put("cuboid", getCuboid().serialize());
         data.put("maxCharge", getMaxCharge());
         data.put("charge", getCharge());
+
+        Map<String, Object> locations = new HashMap<>();
+        Map<String, Object> glassBlocks = new HashMap<>();
+        Map<String, Object> snowBlocks = new HashMap<>();
+
+        int i = 0;
+        for (Location glassBlockLocation : glassBlocksLocations){
+            glassBlocks.put(String.valueOf(i), Serialization.serializeLocation(glassBlockLocation));
+        }
+
+        i = 0;
+
+        for (Location snowBlocksLocation : snowBlocksLocations){
+            snowBlocks.put(String.valueOf(i), Serialization.serializeLocation(snowBlocksLocation));
+        }
+
+        locations.put("glassBlocks", glassBlocks);
+        locations.put("snowBlocks", snowBlocks);
+        data.put("locations", locations);
         return data;
     }
 }
