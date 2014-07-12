@@ -79,6 +79,8 @@ public class Utils {
             object = ((MemorySection) object).getValues(true);
         }
 
+        System.out.println("Object val = " + object);
+
         return (Map<String, Object>) object;
     }
 

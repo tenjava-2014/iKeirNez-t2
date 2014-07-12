@@ -28,17 +28,17 @@ public class Battery implements ConfigurationSerializable {
     private int chargingCurrent = 0;
 
     private final List<Location> glassBlocksLocations = new ArrayList<>(), snowBlocksLocations = new ArrayList<>();
-    private Location inputBlockLocation, outputBlockLocation, chargedNotifierBlock;
+    private Location inputBlockLocation, outputBlockLocation, chargedNotifierBlockLocation;
 
     // 8 snow pile = 1 block
 
-    public Battery(Cuboid cuboid, List<Location> glassBlocksLocations, List<Location> snowBlocksLocations, Location inputBlockLocation, Location outputBlockLocation, Location chargedNotifierBlock){
+    public Battery(Cuboid cuboid, List<Location> glassBlocksLocations, List<Location> snowBlocksLocations, Location inputBlockLocation, Location outputBlockLocation, Location chargedNotifierBlockLocation){
         this.cuboid = cuboid;
         this.glassBlocksLocations.addAll(glassBlocksLocations);
         this.snowBlocksLocations.addAll(snowBlocksLocations);
         this.inputBlockLocation = inputBlockLocation;
         this.outputBlockLocation = outputBlockLocation;
-        this.chargedNotifierBlock = chargedNotifierBlock;
+        this.chargedNotifierBlockLocation = chargedNotifierBlockLocation;
         this.size = glassBlocksLocations.size();
         this.maxCharge = Setting.BATTERY__POWER_PER_LEVEL.intValue() * getSize();
         update();
@@ -50,7 +50,7 @@ public class Battery implements ConfigurationSerializable {
         Map<String, Object> locations = getSubMap(data, "locations");
         this.inputBlockLocation = Serialization.deserializeLocation(getSubMap(locations, "inputBlock"));
         this.outputBlockLocation = Serialization.deserializeLocation(getSubMap(locations, "outputBlock"));
-        this.chargedNotifierBlock = Serialization.deserializeLocation(getSubMap(locations, "chargedNotificationBlock"));
+        this.chargedNotifierBlockLocation = Serialization.deserializeLocation(getSubMap(locations, "chargedNotificationBlock"));
 
         Map<String, Object> glassBlocksMap = getSubMap(locations, "glassBlocks");
         for (String key : glassBlocksMap.keySet()){
@@ -119,6 +119,9 @@ public class Battery implements ConfigurationSerializable {
 
         locations.put("glassBlocks", glassBlocks);
         locations.put("snowBlocks", snowBlocks);
+        locations.put("inputBlock", Serialization.serializeLocation(inputBlockLocation));
+        locations.put("outputBlock", Serialization.serializeLocation(outputBlockLocation));
+        locations.put("chargedNotificationBlock", Serialization.serializeLocation(chargedNotifierBlockLocation));
         data.put("locations", locations);
         return data;
     }

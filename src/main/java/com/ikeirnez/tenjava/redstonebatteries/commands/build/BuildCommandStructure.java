@@ -41,8 +41,8 @@ public enum BuildCommandStructure {
             l.add(0, 2, 0);
 
             // this needs rewritten at some point, not enough time atm
-            for (int x = 0; x < 3; x++){
-                for (int y = 0; y < totalLayers; y++){
+            for (int y = 0; y < totalLayers; y++){
+                for (int x = 0; x < 3; x++){
                     for (int z = 0; z < 3; z++){
                         Location location = l.clone().add(x, y, z);
                         Block block = location.getBlock();
@@ -52,8 +52,7 @@ public enum BuildCommandStructure {
                             block.setData((byte) 15); // black
                         } else {
                             if (x == 1 && z == 1){
-                                if (y != 1){
-                                    block.setType(Material.AIR);
+                                if (y != 0){
                                     snowBlockLocations.add(location);
                                 }
                             } else {

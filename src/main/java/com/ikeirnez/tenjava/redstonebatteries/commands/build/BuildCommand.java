@@ -32,39 +32,41 @@ public class BuildCommand implements CommandExecutor {
             return false;
         }
 
-        BuildCommandStructure buildCommandStructure = BuildCommandStructure.valueOf(args[0].toUpperCase());
+        BuildCommandStructure buildCommandStructure;
 
-        if (buildCommandStructure == null){
+        try {
+            buildCommandStructure = BuildCommandStructure.valueOf(args[0].toUpperCase());
+        } catch (IllegalArgumentException e){ // todo temp fix
             player.sendMessage(getPrefix("buildCmdInvalidStructure", args[0], Utils.join(BuildCommandStructure.values(), ChatColor.RED + ", " + ChatColor.GOLD, ChatColor.RED + " and " + ChatColor.GOLD)));
-        } else {
-            Object[] buildArguments = null;
-
-            switch (buildCommandStructure){ // we may have other structures in the future
-                default:
-                    throw new RuntimeException("Developer error, unhandled BuildCommandStructure \"" + buildCommandStructure.name() + "\""); // need a better exception type
-                case BATTERY:
-                    int size;
-
-                    try {
-                        size = Integer.parseInt(args[1]);
-                    } catch (NumberFormatException e){
-                        player.sendMessage(getPrefix("notInteger", args[0]));
-                        return true;
-                    }
-
-                    buildArguments = new Object[]{ size };
-                    break;
-            }
-
-            player.setMetadata("RB-StructureBuild", new FixedMetadataValue(RedstoneBatteries.getInstance(), buildCommandStructure));
-
-            if (buildArguments != null){
-                player.setMetadata("RB-StructureBuild-Args", new FixedMetadataValue(RedstoneBatteries.getInstance(), buildArguments));
-            }
-
-            player.sendMessage(getPrefix("buildCmdReadyToBuild", buildCommandStructure.getFriendlyName()));
+            return true;
         }
 
+        Object[] buildArguments = null;
+
+        switch (buildCommandStructure){ // we may have other structures in the future
+            default:
+                throw new RuntimeException("Developer error, unhandled BuildCommandStructure \"" + buildCommandStructure.name() + "\""); // need a better exception type
+            case BATTERY:
+                int size;
+
+                try {
+                    size = Integer.parseInt(args[1]);
+                } catch (NumberFormatException e){
+                    player.sendMessage(getPrefix("notInteger", args[0]));
+                    return true;
+                }
+
+                buildArguments = new Object[]{ size };
+                break;
+        }
+
+        player.setMetadata("RB-StructureBuild", new FixedMetadataValue(RedstoneBatteries.getInstance(), buildCommandStructure));
+
+        if (buildArguments != null){
+            player.setMetadata("RB-StructureBuild-Args", new FixedMetadataValue(RedstoneBatteries.getInstance(), buildArguments));
+        }
+
+        player.sendMessage(getPrefix("buildCmdReadyToBuild", buildCommandStructure.getFriendlyName()));
         return true;
     }
 }

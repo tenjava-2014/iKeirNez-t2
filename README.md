@@ -37,3 +37,24 @@ The battery has 3 inputs/outputs:
   
 The battery will charge faster depending on the power level input.
 If the battery overcharges too long it will explode, spilling lethal battery acid everywhere (lava)
+
+Configuration
+----
+
+* battery.powerPerLevel - A level of a battery is defined by the size you used in the command to create it, this can be calculated by counting the glass on the battery too. The more power each level has, the more all batteries will hold.
+
+Commands
+----
+
+* /build battery <size> - Builds a battery (will possibly be used to build energy making machines in the future)
+
+Permissions
+----
+
+* RedstoneBatteries.build - Grants access to /build, given by default
+
+Todo (except main features)
+----
+
+* Fix battery status (not showing minor intervals)
+* Loading is broken

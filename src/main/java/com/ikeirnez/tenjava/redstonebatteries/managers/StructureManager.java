@@ -45,7 +45,7 @@ public class StructureManager {
         int i = 0;
 
         for (Battery battery : getStructures()){
-            structuresConfig.set(String.valueOf(i++), battery.serialize());
+            structuresConfig.set("Battery-" + i++, battery.serialize());
         }
 
         structureConfigWrapper.saveConfig();
