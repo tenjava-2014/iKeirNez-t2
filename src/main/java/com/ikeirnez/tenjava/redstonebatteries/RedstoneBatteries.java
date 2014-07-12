@@ -1,5 +1,6 @@
 package com.ikeirnez.tenjava.redstonebatteries;
 
+import com.ikeirnez.tenjava.redstonebatteries.commands.build.BuildCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -9,12 +10,12 @@ public class RedstoneBatteries extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        super.onEnable();
+        getCommand("build").setExecutor(new BuildCommand());
     }
 
     @Override
     public void onDisable() {
-        super.onDisable();
+
     }
 
 }

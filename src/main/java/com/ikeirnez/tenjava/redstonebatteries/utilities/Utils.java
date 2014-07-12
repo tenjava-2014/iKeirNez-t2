@@ -1,8 +1,12 @@
-package com.ikeirnez.tenjava.redstonebatteries;
+package com.ikeirnez.tenjava.redstonebatteries.utilities;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+
+import java.util.List;
+
+import static com.ikeirnez.tenjava.redstonebatteries.Language.getPrefix;
 
 /**
  * Created by iKeirNez on 12/07/2014.
@@ -19,7 +23,7 @@ public class Utils {
         boolean player = commandSender instanceof Player;
 
         if (warn && !player){
-            commandSender.sendMessage(Language.get("notPlayer"));
+            commandSender.sendMessage(getPrefix("notPlayer"));
         }
 
         return player;
@@ -33,19 +37,23 @@ public class Utils {
         boolean has = !(commandSender instanceof Player) && commandSender.hasPermission(permission);
 
         if (warn && !has){
-            commandSender.sendMessage(Language.get("noPermission", permission.getName()));
+            commandSender.sendMessage(getPrefix("noPermission", permission.getName()));
         }
 
         return has;
     }
 
-    public static String join(String[] strings, String separator, String lastSeparator){
+    public static String join(List<Object> strings, String separator, String lastSeparator){
+        return join(strings.toArray(), separator, lastSeparator);
+    }
+
+    public static String join(Object[] strings, String separator, String lastSeparator){
         StringBuilder stringBuilder = new StringBuilder();
 
         for (int i = 0; i < strings.length; i++){
             stringBuilder.append(strings[i]);
 
-            if (i == strings.length - 2){
+            if (strings.length > 1 && i == strings.length - 2){
                 stringBuilder.append(lastSeparator);
             } else {
                 stringBuilder.append(separator);

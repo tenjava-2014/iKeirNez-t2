@@ -13,6 +13,7 @@ public class Language {
 
     private Language(){}
 
+    private static String PREFIX_KEY = "prefix";
     private static Properties properties = new Properties();
 
     static {
@@ -25,6 +26,10 @@ public class Language {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String getPrefix(String key, Object... args){
+        return get(PREFIX_KEY) + get(key, args);
     }
 
     public static String get(String key, Object... args){
