@@ -35,6 +35,8 @@ public class Battery implements ConfigurationSerializable {
         this.outputBlockLocation = outputBlockLocation;
         this.chargedNotifierBlock = chargedNotifierBlock;
         this.size = glassBlocksLocations.size();
+
+        update();
     }
 
     public Battery(Map<String, Object> data){
@@ -57,6 +59,8 @@ public class Battery implements ConfigurationSerializable {
 
         this.maxCharge = (int) data.get("maxCharge");
         this.charge = (int) data.get("charge");
+
+        update();
     }
 
     public Cuboid getCuboid() {
@@ -109,5 +113,9 @@ public class Battery implements ConfigurationSerializable {
         locations.put("snowBlocks", snowBlocks);
         data.put("locations", locations);
         return data;
+    }
+
+    private void update(){
+
     }
 }

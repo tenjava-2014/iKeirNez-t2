@@ -1,5 +1,8 @@
 package com.ikeirnez.tenjava.redstonebatteries.commands.build;
 
+import com.ikeirnez.tenjava.redstonebatteries.RedstoneBatteries;
+import com.ikeirnez.tenjava.redstonebatteries.structures.Battery;
+import com.ikeirnez.tenjava.redstonebatteries.utilities.Cuboid;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,11 +32,15 @@ public enum BuildCommandStructure {
 
         @Override
         public void build(Location l, Object... args) {
+            List<Location> glassBlockLocations = new ArrayList<>();
+            List<Location> snowBlockLocations = new ArrayList<>();
+
             int layers = (int) args[0]; // onions
             int totalLayers = layers + 2; // layers + top/bottom + input/output
 
             l.add(0, 2, 0);
 
+            // this needs rewritten at some point, not enough time atm
             for (int x = 0; x < 3; x++){
                 for (int y = 0; y < totalLayers; y++){
                     for (int z = 0; z < 3; z++){
@@ -47,11 +54,13 @@ public enum BuildCommandStructure {
                             if (x == 1 && z == 1){
                                 if (y != 1){
                                     block.setType(Material.AIR);
+                                    snowBlockLocations.add(location);
                                 }
                             } else {
                                 if (x == 1 && z == 0){
                                     block.setType(Material.STAINED_GLASS);
                                     block.setData((byte) 14); // red
+                                    glassBlockLocations.add(location);
                                 } else {
                                     block.setType(Material.WOOL);
                                     block.setData((byte) 15); // black
@@ -63,12 +72,19 @@ public enum BuildCommandStructure {
             }
 
             // this is really bad, should be done in the loop above, but will fix when I have more time
-            Block pistonBlock = l.clone().add(1, totalLayers - 2, 3).getBlock();
+            Location chargedNotifierBlockLocation = l.clone().add(1, totalLayers - 2, 3);
+            Block pistonBlock = chargedNotifierBlockLocation.getBlock();
             pistonBlock.setType(Material.PISTON_STICKY_BASE);
             pistonBlock.setData((byte) 3);
 
-            l.clone().add(1, -1, 1).getBlock().setType(Material.ENDER_STONE);
-            l.clone().add(1, totalLayers, 1).getBlock().setType(Material.LAPIS_BLOCK);
+            Location inputBlockLocation = l.clone().add(1, -1, 1);
+            inputBlockLocation.getBlock().setType(Material.ENDER_STONE);
+
+            Location outputBlockLocation = l.clone().add(1, totalLayers, 1);
+            outputBlockLocation.getBlock().setType(Material.LAPIS_BLOCK);
+
+            // the below code is pretty bad, in a rush
+            RedstoneBatteries.getInstance().getStructureManager().registerStructure(new Battery(new Cuboid(l, l.clone().add(3, totalLayers + 2, 4)), glassBlockLocations, snowBlockLocations, inputBlockLocation, outputBlockLocation, chargedNotifierBlockLocation));
         }
     };
 
