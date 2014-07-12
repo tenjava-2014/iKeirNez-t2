@@ -34,7 +34,7 @@ public class Utils {
     }
 
     public static boolean hasPermission(CommandSender commandSender, Permission permission, boolean warn){
-        boolean has = !(commandSender instanceof Player) && commandSender.hasPermission(permission);
+        boolean has = !(commandSender instanceof Player) || commandSender.hasPermission(permission);
 
         if (warn && !has){
             commandSender.sendMessage(getPrefix("noPermission", permission.getName()));
