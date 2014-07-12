@@ -1,4 +1,4 @@
-package com.ikeirnez.tenjava.redstonebatteries;
+package com.ikeirnez.tenjava.redstonebatteries.structures;
 
 import com.ikeirnez.tenjava.redstonebatteries.commands.build.BuildCommand;
 import com.ikeirnez.tenjava.redstonebatteries.listeners.StructureLocationListener;
@@ -10,8 +10,15 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class RedstoneBatteries extends JavaPlugin {
 
+    private static RedstoneBatteries instance;
+
+    public static RedstoneBatteries getInstance() {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
+        instance = this;
         getCommand("build").setExecutor(new BuildCommand());
 
         PluginManager pluginManager = getServer().getPluginManager();
@@ -20,7 +27,7 @@ public class RedstoneBatteries extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        instance = null;
     }
 
 }

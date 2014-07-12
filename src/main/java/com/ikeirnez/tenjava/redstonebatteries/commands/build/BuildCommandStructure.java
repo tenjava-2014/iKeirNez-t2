@@ -1,5 +1,6 @@
 package com.ikeirnez.tenjava.redstonebatteries.commands.build;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,6 +21,9 @@ public enum BuildCommandStructure {
             List<ItemStack> required = new ArrayList<>();
             required.add(new ItemStack(Material.WOOL, 9 * 2 + (layers * 8), (short) -1));
             required.add(new ItemStack(Material.GLASS, layers, (short) 0));
+            required.add(new ItemStack(Material.ENDER_STONE, 1));
+            required.add(new ItemStack(Material.LAPIS_BLOCK, 1));
+            required.add(new ItemStack(Material.PISTON_STICKY_BASE, 1));
             return required;
         }
 
@@ -27,6 +31,8 @@ public enum BuildCommandStructure {
         public void build(Location l, Object... args) {
             int layers = (int) args[0]; // onions
             int totalLayers = layers + 2; // layers + top/bottom + input/output
+
+            l.add(0, 2, 0);
 
             for (int x = 0; x < 3; x++){
                 for (int y = 0; y < totalLayers; y++){
@@ -61,10 +67,14 @@ public enum BuildCommandStructure {
             pistonBlock.setType(Material.PISTON_STICKY_BASE);
             pistonBlock.setData((byte) 3);
 
-            l.clone().add(1, -1, 1).getBlock().setType(Material.SPONGE);
+            l.clone().add(1, -1, 1).getBlock().setType(Material.ENDER_STONE);
             l.clone().add(1, totalLayers, 1).getBlock().setType(Material.LAPIS_BLOCK);
         }
     };
+
+    public String getFriendlyName(){
+        return WordUtils.capitalize(name().toLowerCase().replaceAll("_", " "));
+    }
 
     public abstract List<ItemStack> getRequired(Object... args);
     public abstract void build(Location location, Object... args);

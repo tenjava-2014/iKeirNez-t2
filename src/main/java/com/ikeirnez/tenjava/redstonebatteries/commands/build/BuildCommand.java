@@ -1,20 +1,15 @@
 package com.ikeirnez.tenjava.redstonebatteries.commands.build;
 
-import com.ikeirnez.tenjava.redstonebatteries.utilities.InventoryUtils;
+import com.ikeirnez.tenjava.redstonebatteries.structures.RedstoneBatteries;
 import com.ikeirnez.tenjava.redstonebatteries.utilities.Utils;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
-
-import java.util.List;
 
 import static com.ikeirnez.tenjava.redstonebatteries.Language.getPrefix;
 
@@ -42,6 +37,8 @@ public class BuildCommand implements CommandExecutor {
         if (buildCommandStructure == null){
             player.sendMessage(getPrefix("buildCmdInvalidStructure", args[0], Utils.join(BuildCommandStructure.values(), ChatColor.RED + ", " + ChatColor.GOLD, ChatColor.RED + " and " + ChatColor.GOLD)));
         } else {
+            Object[] buildArguments = null;
+
             switch (buildCommandStructure){ // we may have other structures in the future
                 default:
                     throw new RuntimeException("Developer error, unhandled BuildCommandStructure \"" + buildCommandStructure.name() + "\""); // need a better exception type
@@ -55,24 +52,17 @@ public class BuildCommand implements CommandExecutor {
                         return true;
                     }
 
-                    if (player.getGameMode() != GameMode.CREATIVE){
-                        PlayerInventory inventory = player.getInventory();
-                        List<ItemStack> required = BuildCommandStructure.BATTERY.getRequired(size);
-
-                        for (ItemStack itemStack : required){
-                            Material material = itemStack.getType();
-                            short durability = itemStack.getDurability();
-                            int amount = itemStack.getAmount();
-
-                            if (!InventoryUtils.has(inventory, material, durability, amount)){
-                                player.sendMessage(getPrefix("buildCmdNotEnough", InventoryUtils.getFriendlyMaterialName(material), amount));
-                                return true;
-                            }
-                        }
-                    }
-
+                    buildArguments = new Object[]{ size };
                     break;
             }
+
+            player.setMetadata("RB-StructureBuild", new FixedMetadataValue(RedstoneBatteries.getInstance(), buildCommandStructure));
+
+            if (buildArguments != null){
+                player.setMetadata("RB-StructureBuild-Args", new FixedMetadataValue(RedstoneBatteries.getInstance(), buildArguments));
+            }
+
+            player.sendMessage(getPrefix("buildCmdReadyToBuild", buildCommandStructure.getFriendlyName()));
         }
 
         return true;

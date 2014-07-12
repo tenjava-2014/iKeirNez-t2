@@ -40,17 +40,18 @@ public class InventoryUtils {
         boolean ignoreDamage = damage == -1;
 
         for (int slot : inventory.all(material).keySet()){
+            int leftToTake = amount - removed;
             ItemStack itemStack = inventory.getItem(slot);
 
             if (ignoreDamage || itemStack.getDurability() == damage){
-                int iAmount = itemStack.getAmount();
+                int stackAmount = itemStack.getAmount();
 
-                if (iAmount >= amount){
-                    itemStack.setAmount(iAmount - amount);
-                    removed += amount;
+                if (stackAmount >= leftToTake){
+                    itemStack.setAmount(stackAmount - leftToTake);
+                    removed += leftToTake;
                 } else {
                     itemStack.setAmount(0);
-                    removed += iAmount;
+                    removed += stackAmount;
                 }
 
                 inventory.setItem(slot, itemStack.getAmount() == 0 ? null : itemStack);
