@@ -40,7 +40,7 @@ public class Cuboid implements ConfigurationSerializable, Cloneable {
     }
 
     public Cuboid(Map<String, Object> data){
-        this.worldName = (String) data.get("worldName");
+        this.worldName = (String) data.get("world");
 
         if (getWorld() == null){
             throw new IllegalArgumentException("World \"" + worldName + "\" doesn't exist.");
@@ -146,7 +146,7 @@ public class Cuboid implements ConfigurationSerializable, Cloneable {
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> data = new HashMap<>();
-        data.put("worldName", worldName);
+        data.put("world", worldName);
 
         data.put("x1", x1);
         data.put("y1", y1);

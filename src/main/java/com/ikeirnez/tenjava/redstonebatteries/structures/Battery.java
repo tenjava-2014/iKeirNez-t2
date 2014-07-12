@@ -4,14 +4,14 @@ import com.ikeirnez.tenjava.redstonebatteries.utilities.Cuboid;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by iKeirNez on 12/07/2014.
  */
-public class Battery {
+public class Battery implements ConfigurationSerializable {
 
     private static final int BATTERY_SIZE_X = 3, BATTERY_SIZE_Z = 4, BATTERY_MIN_SIZE_Y = 5;
     private static final Material INPUT_BLOCK = Material.ENDER_STONE, OUTPUT_BLOCK = Material.LAPIS_BLOCK, CHARGED_NOTIFIER_BLOCK = Material.PISTON_STICKY_BASE;
@@ -66,7 +66,38 @@ public class Battery {
         }
     }
 
+    public Battery(Map<String, Object> data){
+        this.cuboid = new Cuboid((Map<String, Object>) data.get("cuboid"));
+        this.maxCharge = (int) data.get("maxCharge");
+        this.charge = (int) data.get("charge");
+    }
+
     public Cuboid getCuboid() {
         return cuboid;
+    }
+
+    public int getMaxCharge() {
+        return maxCharge;
+    }
+
+    public void setMaxCharge(int maxCharge) {
+        this.maxCharge = maxCharge;
+    }
+
+    public int getCharge() {
+        return charge;
+    }
+
+    public void setCharge(int charge) {
+        this.charge = charge;
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> data = new HashMap<>();
+        data.put("cuboid", getCuboid().serialize());
+        data.put("maxCharge", getMaxCharge());
+        data.put("charge", getCharge());
+        return data;
     }
 }

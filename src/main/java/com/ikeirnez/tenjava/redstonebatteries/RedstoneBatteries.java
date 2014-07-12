@@ -1,10 +1,13 @@
 package com.ikeirnez.tenjava.redstonebatteries;
 
 import com.ikeirnez.tenjava.redstonebatteries.commands.build.BuildCommand;
+import com.ikeirnez.tenjava.redstonebatteries.configuration.CustomConfigWrapper;
 import com.ikeirnez.tenjava.redstonebatteries.configuration.Setting;
 import com.ikeirnez.tenjava.redstonebatteries.listeners.StructureLocationListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 /**
  * Main plugin class.
@@ -16,6 +19,8 @@ public class RedstoneBatteries extends JavaPlugin {
     public static RedstoneBatteries getInstance() {
         return instance;
     }
+
+    private CustomConfigWrapper structuresConfigWrapper = new CustomConfigWrapper(new File(getDataFolder(), "structures.yml"));
 
     @Override
     public void onEnable() {
@@ -46,4 +51,7 @@ public class RedstoneBatteries extends JavaPlugin {
         instance = null;
     }
 
+    public CustomConfigWrapper getStructuresConfigWrapper() {
+        return structuresConfigWrapper;
+    }
 }
