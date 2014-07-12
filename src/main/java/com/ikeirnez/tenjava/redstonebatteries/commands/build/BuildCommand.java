@@ -2,7 +2,6 @@ package com.ikeirnez.tenjava.redstonebatteries.commands.build;
 
 import com.ikeirnez.tenjava.redstonebatteries.utilities.InventoryUtils;
 import com.ikeirnez.tenjava.redstonebatteries.utilities.Utils;
-import net.milkbowl.vault.item.Items;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -66,7 +65,7 @@ public class BuildCommand implements CommandExecutor {
                             int amount = itemStack.getAmount();
 
                             if (!InventoryUtils.has(inventory, material, durability, amount)){
-                                player.sendMessage(getPrefix("buildCmdNotEnough", durability == -1 ? Items.itemByType(material).getName() : Items.itemByType(material, durability).getName(), amount));
+                                player.sendMessage(getPrefix("buildCmdNotEnough", InventoryUtils.getFriendlyMaterialName(material), amount));
                                 return true;
                             }
                         }

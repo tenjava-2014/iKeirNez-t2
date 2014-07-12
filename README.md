@@ -37,8 +37,3 @@ The battery has 3 inputs/outputs:
   
 The battery will charge faster depending on the power level input.
 If the battery overcharges too long it will explode, spilling lethal battery acid everywhere (lava)
-
-Dependencies
------
-
-RedstoneBattery relies on Vault for item name matching and getting.
