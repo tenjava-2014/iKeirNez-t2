@@ -25,16 +25,20 @@ Maven will download all required dependencies and build a ready-for-use plugin p
 
 ---------------------------------------
 
-Concept
+How can energy be harnessed and used in the Minecraft world?
 -------
 
+Doesn't it seem a little un-realistic that you can simply place a redstone torch/block and instantly have a stream of power? That's exactly what this plugin intends to fix. A battery is created using a the command **/build battery <size>** (maybe in the future actually placing blocks instead of doing a command) assuming you have enough materials.
 
+The battery has 3 inputs/outputs:
+  * Redstone input line, powered by generator
+  * Redstone output line, do as you want with it
+  * Meter, piston that pushes out when charged
+  
+The battery will charge faster depending on the power level input.
+If the battery overcharges too long it will explode, spilling lethal battery acid everywhere (lava)
 
-Usage
+Dependencies
 -----
 
-1. Install plugin
-2. Do things with it
-
-<!-- Hi, iKeirNez! This is the default README for every ten.java submission. -->
-<!-- We encourage you to edit this README with some information about your submission – keep in mind you'll be scored on documentation! -->
+RedstoneBattery relies on Vault for item name matching and getting.
