@@ -39,4 +39,20 @@ public class Utils {
         return has;
     }
 
+    public static String join(String[] strings, String separator, String lastSeparator){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < strings.length; i++){
+            stringBuilder.append(strings[i]);
+
+            if (i == strings.length - 2){
+                stringBuilder.append(lastSeparator);
+            } else {
+                stringBuilder.append(separator);
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
 }
