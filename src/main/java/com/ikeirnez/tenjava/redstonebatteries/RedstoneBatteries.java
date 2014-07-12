@@ -20,7 +20,7 @@ public class RedstoneBatteries extends JavaPlugin {
         return instance;
     }
 
-    private CustomConfigWrapper structuresConfigWrapper = new CustomConfigWrapper(new File(getDataFolder(), "structures.yml"));
+    private StructureManager structureManager;
 
     @Override
     public void onEnable() {
@@ -40,6 +40,8 @@ public class RedstoneBatteries extends JavaPlugin {
             setting.setValue(getConfig().get(setting.getConfigPath()));
         }
 
+        structureManager = new StructureManager(new File(getDataFolder(), "structures.yml"));
+
         getCommand("build").setExecutor(new BuildCommand());
 
         PluginManager pluginManager = getServer().getPluginManager();
@@ -51,7 +53,7 @@ public class RedstoneBatteries extends JavaPlugin {
         instance = null;
     }
 
-    public CustomConfigWrapper getStructuresConfigWrapper() {
-        return structuresConfigWrapper;
+    public StructureManager getStructureManager() {
+        return structureManager;
     }
 }

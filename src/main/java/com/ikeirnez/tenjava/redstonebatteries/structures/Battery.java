@@ -27,44 +27,14 @@ public class Battery implements ConfigurationSerializable {
 
     // 8 snow pile = 1 block
 
-    public Battery(Cuboid cuboid){
+    public Battery(Cuboid cuboid, List<Location> glassBlocksLocations, List<Location> snowBlocksLocations, Location inputBlockLocation, Location outputBlockLocation, Location chargedNotifierBlock){
         this.cuboid = cuboid;
-
-        if (getCuboid().getLengthX() != BATTERY_SIZE_X || getCuboid().getLengthZ() != BATTERY_SIZE_Z || getCuboid().getLengthY() < BATTERY_MIN_SIZE_Y){
-            throw new IllegalArgumentException("Cuboid does not match dimensions of a Battery.");
-        }
-
-        size = getCuboid().getLengthY() - 4;
-
-        Location centre = getCuboid().getCentre();
-
-        // clean this up sometime
-        for (Block block : cuboid.getBlocks()){
-            Location location = block.getLocation();
-            Material type = block.getType();
-
-            if (type == Material.STAINED_GLASS){
-                if ((location.getX() == centre.getX() + 1 || location.getX() == centre.getX() - 1) && (location.getZ() == centre.getX() + 1 || location.getZ() == centre.getZ() - 1)){
-                    glassBlocksLocations.add(location);
-                }
-            } else if (type == Material.SNOW || type == Material.SNOW_BLOCK){
-                if (location.getX() == centre.getX() && location.getZ() == centre.getZ()){
-                    snowBlocksLocations.add(location);
-                }
-            } else if (type == INPUT_BLOCK){
-                if (location.getX() == centre.getX() && location.getZ() == centre.getZ()){
-                    inputBlockLocation = location;
-                }
-            } else if (type == OUTPUT_BLOCK){
-                if (location.getX() == centre.getX() && location.getZ() == centre.getZ()){
-                    outputBlockLocation = location;
-                }
-            } else if (type == CHARGED_NOTIFIER_BLOCK){
-                if ((location.getX() == centre.getX() + 2 || location.getX() == centre.getX() - 2) && (location.getZ() == centre.getZ() + 2 || location.getZ() == centre.getZ() - 2)){
-                    chargedNotifierBlock = location;
-                }
-            }
-        }
+        this.glassBlocksLocations.addAll(glassBlocksLocations);
+        this.snowBlocksLocations.addAll(snowBlocksLocations);
+        this.inputBlockLocation = inputBlockLocation;
+        this.outputBlockLocation = outputBlockLocation;
+        this.chargedNotifierBlock = chargedNotifierBlock;
+        this.size = glassBlocksLocations.size();
     }
 
     public Battery(Map<String, Object> data){
@@ -99,6 +69,10 @@ public class Battery implements ConfigurationSerializable {
 
     public void setMaxCharge(int maxCharge) {
         this.maxCharge = maxCharge;
+
+        if (getMaxCharge() > getCharge()){
+            setCharge(getMaxCharge());
+        }
     }
 
     public int getCharge() {

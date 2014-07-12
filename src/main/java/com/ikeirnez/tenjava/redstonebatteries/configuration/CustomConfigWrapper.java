@@ -27,25 +27,25 @@ public class CustomConfigWrapper {
         }
     }
 
-    public void reloadCustomConfig() {
+    public void reloadConfig() {
         fileConfiguration = YamlConfiguration.loadConfiguration(file);
     }
 
-    public FileConfiguration getCustomConfig() {
+    public FileConfiguration getConfig() {
         if (fileConfiguration == null) {
-            reloadCustomConfig();
+            reloadConfig();
         }
 
         return fileConfiguration;
     }
 
-    public void saveCustomConfig() {
+    public void saveConfig() {
         if (fileConfiguration == null || file == null) {
             return;
         }
 
         try {
-            getCustomConfig().save(file);
+            getConfig().save(file);
         } catch (IOException ex) {
             RedstoneBatteries.getInstance().getLogger().log(Level.SEVERE, "Could not save config to " + file, ex);
         }
