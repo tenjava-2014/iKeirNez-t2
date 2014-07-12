@@ -27,7 +27,7 @@ public class Language {
         }
     }
 
-    public String get(String key, Object... args){
+    public static String get(String key, Object... args){
         if (getProperties().containsKey(key)){
             return ChatColor.translateAlternateColorCodes('&', String.format(getRaw(key), args));
         } else {
@@ -35,7 +35,7 @@ public class Language {
         }
     }
 
-    public String getRaw(String key){
+    public static String getRaw(String key){
         return getProperties().getProperty(key);
     }
 
