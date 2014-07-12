@@ -1,7 +1,7 @@
 package com.ikeirnez.tenjava.redstonebatteries.listeners;
 
 import com.ikeirnez.tenjava.redstonebatteries.Language;
-import com.ikeirnez.tenjava.redstonebatteries.structures.RedstoneBatteries;
+import com.ikeirnez.tenjava.redstonebatteries.RedstoneBatteries;
 import com.ikeirnez.tenjava.redstonebatteries.commands.build.BuildCommandStructure;
 import com.ikeirnez.tenjava.redstonebatteries.utilities.InventoryUtils;
 import org.bukkit.GameMode;

@@ -1,4 +1,4 @@
-package com.ikeirnez.tenjava.redstonebatteries;
+package com.ikeirnez.tenjava.redstonebatteries.structures;
 
 import com.ikeirnez.tenjava.redstonebatteries.utilities.Cuboid;
 
@@ -10,6 +10,8 @@ public class Battery {
     private static final int BATTERY_SIZE_X = 3, BATTERY_SIZE_Z = 4, BATTERY_MIN_SIZE_Y = 5;
 
     private final Cuboid cuboid;
+
+    // 8 snow pile = 1 block
 
     public Battery(Cuboid cuboid){
         this.cuboid = cuboid;

@@ -1,6 +1,6 @@
 package com.ikeirnez.tenjava.redstonebatteries.commands.build;
 
-import com.ikeirnez.tenjava.redstonebatteries.structures.RedstoneBatteries;
+import com.ikeirnez.tenjava.redstonebatteries.RedstoneBatteries;
 import com.ikeirnez.tenjava.redstonebatteries.utilities.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
