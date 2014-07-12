@@ -3,13 +3,14 @@ package com.ikeirnez.tenjava.redstonebatteries.structures;
 import com.ikeirnez.tenjava.redstonebatteries.configuration.Serialization;
 import com.ikeirnez.tenjava.redstonebatteries.configuration.Setting;
 import com.ikeirnez.tenjava.redstonebatteries.utilities.Cuboid;
-import com.ikeirnez.tenjava.redstonebatteries.utilities.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.util.*;
+
+import static com.ikeirnez.tenjava.redstonebatteries.utilities.Utils.getSubMap;
 
 /**
  * Created by iKeirNez on 12/07/2014.
@@ -44,21 +45,21 @@ public class Battery implements ConfigurationSerializable {
     }
 
     public Battery(Map<String, Object> data){
-        this.cuboid = new Cuboid((Map<String, Object>) data.get("cuboid"));
+        this.cuboid = new Cuboid(getSubMap(data, "cuboid"));
 
-        Map<String, Object> locations = (Map<String, Object>) data.get("locations");
-        this.inputBlockLocation = Serialization.deserializeLocation((Map<String, Object>) locations.get("inputBlock"));
-        this.outputBlockLocation = Serialization.deserializeLocation((Map<String, Object>) locations.get("outputBlock"));
-        this.chargedNotifierBlock = Serialization.deserializeLocation((Map<String, Object>) locations.get("chargedNotificationBlock"));
+        Map<String, Object> locations = getSubMap(data, "locations");
+        this.inputBlockLocation = Serialization.deserializeLocation(getSubMap(locations, "inputBlock"));
+        this.outputBlockLocation = Serialization.deserializeLocation(getSubMap(locations, "outputBlock"));
+        this.chargedNotifierBlock = Serialization.deserializeLocation(getSubMap(locations, "chargedNotificationBlock"));
 
-        Map<String, Object> glassBlocksMap = (Map<String, Object>) locations.get("glassBlocks");
+        Map<String, Object> glassBlocksMap = getSubMap(locations, "glassBlocks");
         for (String key : glassBlocksMap.keySet()){
-            glassBlocksLocations.add(Serialization.deserializeLocation((Map<String, Object>) glassBlocksMap.get(key)));
+            glassBlocksLocations.add(Serialization.deserializeLocation(getSubMap(glassBlocksMap, key)));
         }
 
-        Map<String, Object> snowBlocksMap = (Map<String, Object>) locations.get("snowBlocks");
+        Map<String, Object> snowBlocksMap = getSubMap(locations, "snowBlocks");
         for (String key : snowBlocksMap.keySet()){
-            snowBlocksLocations.add(Serialization.deserializeLocation((Map<String, Object>) snowBlocksMap.get(key)));
+            snowBlocksLocations.add(Serialization.deserializeLocation(getSubMap(snowBlocksMap, key)));
         }
 
         this.charge = (int) data.get("charge");

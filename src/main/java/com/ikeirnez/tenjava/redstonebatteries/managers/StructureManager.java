@@ -2,6 +2,7 @@ package com.ikeirnez.tenjava.redstonebatteries.managers;
 
 import com.ikeirnez.tenjava.redstonebatteries.configuration.CustomConfigWrapper;
 import com.ikeirnez.tenjava.redstonebatteries.structures.Battery;
+import com.ikeirnez.tenjava.redstonebatteries.utilities.Utils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
@@ -22,7 +23,7 @@ public class StructureManager {
 
         Map<String, Object> structuresMap = structureConfigWrapper.getConfig().getValues(true);
         for (String structureKey : structuresMap.keySet()){
-            Map<String, Object> structureData = (Map<String, Object>) structuresMap.get(structureKey);
+            Map<String, Object> structureData = Utils.getSubMap(structuresMap, structureKey);
             registerStructure(new Battery(structureData));
         }
     }

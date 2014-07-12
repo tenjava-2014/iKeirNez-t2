@@ -1,10 +1,12 @@
 package com.ikeirnez.tenjava.redstonebatteries.utilities;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.ikeirnez.tenjava.redstonebatteries.Language.getPrefix;
 
@@ -61,6 +63,23 @@ public class Utils {
         }
 
         return stringBuilder.toString();
+    }
+
+    /**
+     * Helps sort issue when some sub maps are actually MemorySections
+     *
+     * @param map The map to get the sub map from
+     * @param subMapName The name of the sub map
+     * @return The sub map
+     */
+    public static Map<String, Object> getSubMap(Map<String, Object> map, String subMapName){
+        Object object = map.get(subMapName);
+
+        if (object instanceof MemorySection){
+            object = ((MemorySection) object).getValues(true);
+        }
+
+        return (Map<String, Object>) object;
     }
 
 }
