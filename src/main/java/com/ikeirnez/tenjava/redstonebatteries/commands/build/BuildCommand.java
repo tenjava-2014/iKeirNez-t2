@@ -4,6 +4,7 @@ import com.ikeirnez.tenjava.redstonebatteries.utilities.InventoryUtils;
 import com.ikeirnez.tenjava.redstonebatteries.utilities.Utils;
 import net.milkbowl.vault.item.Items;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -55,17 +56,19 @@ public class BuildCommand implements CommandExecutor {
                         return true;
                     }
 
-                    PlayerInventory inventory = player.getInventory();
-                    List<ItemStack> required = BuildCommandStructure.BATTERY.getRequired(size);
+                    if (player.getGameMode() != GameMode.CREATIVE){
+                        PlayerInventory inventory = player.getInventory();
+                        List<ItemStack> required = BuildCommandStructure.BATTERY.getRequired(size);
 
-                    for (ItemStack itemStack : required){
-                        Material material = itemStack.getType();
-                        short durability = itemStack.getDurability();
-                        int amount = itemStack.getAmount();
+                        for (ItemStack itemStack : required){
+                            Material material = itemStack.getType();
+                            short durability = itemStack.getDurability();
+                            int amount = itemStack.getAmount();
 
-                        if (!InventoryUtils.has(inventory, material, durability, amount)){
-                            player.sendMessage(getPrefix("buildCmdNotEnough", durability == -1 ? Items.itemByType(material).getName() : Items.itemByType(material, durability).getName(), amount));
-                            return true;
+                            if (!InventoryUtils.has(inventory, material, durability, amount)){
+                                player.sendMessage(getPrefix("buildCmdNotEnough", durability == -1 ? Items.itemByType(material).getName() : Items.itemByType(material, durability).getName(), amount));
+                                return true;
+                            }
                         }
                     }
 
